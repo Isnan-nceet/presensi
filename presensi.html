@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulir Presensi Guru</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        select, button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #message {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Formulir Presensi Guru</h2>
+        <form id="presensiForm">
+            <div class="form-group">
+                <label for="nama">Pilih Nama Anda:</label>
+                <select id="nama" name="nama" required>
+                    	<option value="">-- Pilih Guru --</option>
+                    	<option value="Muhamad Zubaidi">Muhamad Zubaidi </option>
+		    	<option value="Purnomo">Purnomo</option>
+		    	<option value="Ali Munasir ">Ali Munasir </option>
+			<option value="Much Wahid M">Much Wahid M</option>
+			<option value="Surya Utama">Surya Utama</option>
+			<option value="Agus Budi S">Agus Budi S</option>
+			<option value="Maslikah">Maslikah</option>
+			<option value="Sulistyowati">Sulistyowati</option>
+			<option value="Dwi Lestari">Dwi Lestari</option>
+			<option value="Pranoto">Pranoto</option>
+			<option value="Winarni">Winarni</option>
+			<option value="Miftahul Huda">Miftahul Huda</option>
+			<option value="Rezania Oktaviani">Rezania Oktaviani</option>
+			<option value="Joko Sulistiyono">Joko Sulistiyono</option>
+			<option value="Roma Ika W">Roma Ika W</option>
+			<option value="Isnan Rosyid">Isnan Rosyid</option>
+			<option value="Budiyanto">Budiyanto</option>
+			<option value="Lailatul Choiriyah">Lailatul Choiriyah</option>
+			<option value="Purwoto">Purwoto</option>
+			<option value="Arif Zainul">Arif Zainul</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="status">Status Kehadiran:</label>
+                <select id="status" name="status" required>
+                    <option value="Hadir">Hadir</option>
+                    <option value="Sakit">Sakit</option>
+                    <option value="Izin">Izin</option>
+                </select>
+            </div>
+            <button type="submit">Kirim Presensi</button>
+        </form>
+        <div id="message"></div>
+    </div>
+
+    <script>
+        // GANTI DENGAN URL WEB APP ANDA DARI LANGKAH 3
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyDukPb18--6CHWh5IOArgsJTxXmil2dv_Ip-znHUs3ZfkzvxVA7Xk8rRHB0tAaajyuGQ/exec'; 
+
+        const form = document.getElementById('presensiForm');
+        const messageDiv = document.getElementById('message');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault(); // Mencegah form reload halaman
+
+            messageDiv.textContent = 'Sedang mengirim...';
+            messageDiv.className = '';
+
+            fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result === 'success') {
+                        messageDiv.textContent = '✅ Presensi berhasil terekam!';
+                        messageDiv.className = 'success';
+                        form.reset(); // Mengosongkan form setelah sukses
+                    } else {
+                        throw new Error(data.message);
+                    }
+                })
+                .catch(error => {
+                    messageDiv.textContent = '❌ Terjadi kesalahan: ' + error.message;
+                    messageDiv.className = 'error';
+                });
+        });
+    </script>
+
+</body>
+</html>
